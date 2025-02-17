@@ -1,64 +1,55 @@
 from tabulate import tabulate 
 
-# Perpustakaan Liswatun Naimah
-# Ucapan Selamat Datang
-def kata_sambutan():
-    print("="*150)
-    print("Selamat datang di Perpustakaan Liswatun Naimah!")
-    print("Kami siap membantu Anda menemukan buku terbaik untuk dibaca.")
-    print("Jangan ragu untuk mengeksplor koleksi kami!")
-    print("="*150)
-
 # Database awal dalam bentuk List of Dictionary
 buku_database = [
-    {"id": 101, "judul": "Mimpi Sejuta Dolar", "penulis": "Merry Riana", "penerbit": "Gramedia", "tahun": 2011, "status": "available"},
-    {"id": 102, "judul": "Kisah Sukses dari Nol", "penulis": "Chairul Tanjung", "penerbit": "Gramedia", "tahun": 2012, "status": "available"},
-    {"id": 103, "judul": "Manusia Setengah Salmon", "penulis": "Raditya Dika", "penerbit": "GagasMedia", "tahun": 2011, "status": "not available"},
-    {"id": 104, "judul": "Hidup Sederhana", "penulis": "Desi Anwar", "penerbit": "Gramedia", "tahun": 2014, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 4, "status": "available"},
-    {"id": 105, "judul": "Nanti Kita Cerita Tentang Hari Ini", "penulis": "Marchella FP", "penerbit": "KPG", "tahun": 2018, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 5, "status": "available"},
-    {"id": 106, "judul": "You Do You", "penulis": "Fellexandro Ruby", "penerbit": "Bentang Pustaka", "tahun": 2020, "kota penerbitan": "Yogyakarta", "negara penerbitan": "Indonesia", "dipinjam": 6, "status": "available"},
-    {"id": 107, "judul": "Esok Lebih Baik", "penulis": "Rhenald Kasali", "penerbit": "Bentang Pustaka", "tahun": 2015, "kota penerbitan": "Yogyakarta", "negara penerbitan": "Indonesia", "dipinjam": 5, "status": "available"},
-    {"id": 108, "judul": "Stop Overthinking", "penulis": "Nick Trenton", "penerbit": "Independently Published", "tahun": 2021, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 4, "status": "not available"},
-    {"id": 109, "judul": "Mindset: The New Psychology of Success", "penulis": "Carol Dweck", "penerbit": "Ballantine Books", "tahun": 2006, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 6, "status": "available"},
-    {"id": 110, "judul": "Grit", "penulis": "Angela Duckworth", "penerbit": "Scribner", "tahun": 2016, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 7, "status": "available"},
-    {"id": 111, "judul": "How To Think Like Sherlock Holmes", "penulis": "Maria Konnikova", "penerbit": "Viking", "tahun": 2013, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 5, "status": "available"},
-    {"id": 112, "judul": "Awaken the Giant Within", "penulis": "Tony Robbins", "penerbit": "Free Press", "tahun": 1991, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 5, "status": "available"},
-    {"id": 113, "judul": "Outliers", "penulis": "Malcolm Gladwell", "penerbit": "Little, Brown and Company", "tahun": 2008, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 10, "status": "available"},
-    {"id": 114, "judul": "Kamu Gak Sendirian", "penulis": "Pidi Baiq", "penerbit": "Pastel Books", "tahun": 2019, "kota penerbitan": "Bandung", "negara penerbitan": "Indonesia", "dipinjam": 9, "status": "not available"},
-    {"id": 115, "judul": "Menjadi Manusia Kuat", "penulis": "Yudi Latif", "penerbit": "Kompas", "tahun": 2015, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 8, "status": "not available"},
-    {"id": 116, "judul": "Sapiens", "penulis": "Yuval Noah Harari", "penerbit": "Gramedia", "tahun": 2014, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 4, "status": "available"},
-    {"id": 117, "judul": "Atomic Habits", "penulis": "James Clear", "penerbit": "Penguin", "tahun": 2018, "kota penerbitan": "London", "negara penerbitan": "UK", "dipinjam": 8, "status": "available"},
-    {"id": 118, "judul": "Rich Dad Poor Dad", "penulis": "Robert T. Kiyosaki", "penerbit": "Warner Books", "tahun": 1997, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 8, "status": "not available"},
-    {"id": 119, "judul": "Think and Grow Rich", "penulis": "Napoleon Hill", "penerbit": "Tribute Books", "tahun": 1937, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 6, "status": "available"},
-    {"id": 120, "judul": "Laskar Pelangi", "penulis": "Andrea Hirata", "penerbit": "Bentang Pustaka", "tahun": 2005, "kota penerbitan": "Yogyakarta", "negara penerbitan": "Indonesia", "dipinjam": 8, "status": "available"},
-    {"id": 121, "judul": "Bumi", "penulis": "Tere Liye", "penerbit": "Gramedia", "tahun": 2014, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 5, "status": "not available"},
-    {"id": 122, "judul": "Hujan", "penulis": "Tere Liye", "penerbit": "Gramedia", "tahun": 2016, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 7, "status": "available"},
-    {"id": 123, "judul": "Dilan: Dia adalah Dilanku Tahun 1990", "penulis": "Pidi Baiq", "penerbit": "Pastel Books", "tahun": 2014, "kota penerbitan": "Bandung", "negara penerbitan": "Indonesia", "dipinjam": 6, "status": "available"},
-    {"id": 124, "judul": "Filosofi Kopi", "penulis": "Dee Lestari", "penerbit": "Bentang Pustaka", "tahun": 2006, "kota penerbitan": "Yogyakarta", "negara penerbitan": "Indonesia", "dipinjam": 4, "status": "available"},
-    {"id": 125, "judul": "Perahu Kertas", "penulis": "Dee Lestari", "penerbit": "Bentang Pustaka", "tahun": 2009, "kota penerbitan": "Yogyakarta", "negara penerbitan": "Indonesia", "dipinjam": 7, "status": "not available"},
-    {"id": 126, "judul": "Sabtu Bersama Bapak", "penulis": "Adhitya Mulya", "penerbit": "GagasMedia", "tahun": 2014, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 5, "status": "available"},
-    {"id": 127, "judul": "Rindu", "penulis": "Tere Liye", "penerbit": "Republika", "tahun": 2014, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 3, "status": "available"},
-    {"id": 128, "judul": "Negeri 5 Menara", "penulis": "A. Fuadi", "penerbit": "Gramedia", "tahun": 2009, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 8, "status": "available"},
-    {"id": 129, "judul": "Bidadari-Bidadari Surga", "penulis": "Tere Liye", "penerbit": "Republika", "tahun": 2008, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 6, "status": "not available"},
-    {"id": 130, "judul": "Harry Potter and the Philosopher's Stone", "penulis": "J.K. Rowling", "penerbit": "Bloomsbury", "tahun": 1997, "kota penerbitan": "London", "negara penerbitan": "UK", "dipinjam": 10, "status": "available"},
-    {"id": 131, "judul": "The Lord of the Rings", "penulis": "J.R.R. Tolkien", "penerbit": "Allen & Unwin", "tahun": 1954, "kota penerbitan": "London", "negara penerbitan": "UK", "dipinjam": 9, "status": "available"},
-    {"id": 132, "judul": "The Catcher in the Rye", "penulis": "J.D. Salinger", "penerbit": "Little, Brown and Company", "tahun": 1951, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 8, "status": "available"},
-    {"id": 133, "judul": "Pride and Prejudice", "penulis": "Jane Austen", "penerbit": "T. Egerton", "tahun": 1813, "kota penerbitan": "London", "negara penerbitan": "UK", "dipinjam": 7, "status": "available"},
-    {"id": 134, "judul": "To Kill a Mockingbird", "penulis": "Harper Lee", "penerbit": "J.B. Lippincott & Co.", "tahun": 1960, "kota penerbitan": "Philadelphia", "negara penerbitan": "USA", "dipinjam": 6, "status": "available"},
-    {"id": 135, "judul": "Hujan Bulan Juni", "penulis": "Sapardi Djoko Damono", "penerbit": "Gramedia", "tahun": 1994, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 10, "status": "not available"},
-    {"id": 136, "judul": "Surat Kecil untuk Tuhan", "penulis": "Agnes Davonar", "penerbit": "Inandra Published", "tahun": 2008, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 6, "status": "available"},
-    {"id": 137, "judul": "Orang-orang Biasa", "penulis": "Andrea Hirata", "penerbit": "Bentang Pustaka", "tahun": 2019, "kota penerbitan": "Yogyakarta", "negara penerbitan": "Indonesia", "dipinjam": 7, "status": "available"},
-    {"id": 138, "judul": "Mariposa", "penulis": "Luluk HF", "penerbit": "Coconut Books", "tahun": 2020, "kota penerbitan": "Jakarta", "negara penerbitan": "Indonesia", "dipinjam": 4, "status": "not available"},
-    {"id": 139, "judul": "The Da Vinci Code", "penulis": "Dan Brown", "penerbit": "Doubleday", "tahun": 2003, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 4, "status": "available"},
-    {"id": 140,"judul": "Angels and Demons", "penulis": "Dan Brown", "penerbit": "Pocket Books", "tahun": 2000, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 10, "status": "not available"},
-    {"id": 141, "judul": "Inferno", "penulis": "Dan Brown", "penerbit": "Doubleday", "tahun": 2013, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 5, "status": "not available"},
-    {"id": 142, "judul": "Gone Girl", "penulis": "Gillian Flynn", "penerbit": "Crown Publishing", "tahun": 2012, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 3, "status": "available"},
-    {"id": 143, "judul": "Twilight", "penulis": "Stephenie Meyer", "penerbit": "Little, Brown and Company", "tahun": 2005, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 5, "status": "not available"},
-    {"id": 144, "judul": "The Fault in Our Stars", "penulis": "John Green", "penerbit": "Dutton Books", "tahun": 2012, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 10, "status": "not available"},
-    {"id": 145, "judul": "Looking for Alaska", "penulis": "John Green", "penerbit": "Dutton Books", "tahun": 2005, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 5, "status": "available"},
-    {"id": 146, "judul": "A Thousand Splendid Suns", "penulis": "Khaled Hosseini", "penerbit": "Riverhead Books", "tahun": 2007, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 10, "status": "not available"},
-    {"id": 147, "judul": "Eleanor Oliphant Is Completely Fine", "penulis": "Gail Honeyman", "penerbit": "HarperCollins", "tahun": 2017, "kota penerbitan": "London", "negara penerbitan": "UK", "dipinjam": 7, "status": "available"},
-    {"id": 148, "judul": "The Girl on the Train", "penulis": "Paula Hawkins", "penerbit": "Riverhead Books", "tahun": 2015, "kota penerbitan": "New York", "negara penerbitan": "USA", "dipinjam": 3, "status": "available"} 
+    {"id": 101, "judul": "Mimpi Sejuta Dolar", "penulis": "Merry Riana", "penerbit": "Gramedia", "tahun": 2011, "dipinjam": 4, "status": "available"},
+    {"id": 102, "judul": "Kisah Sukses dari Nol", "penulis": "Chairul Tanjung", "penerbit": "Gramedia", "tahun": 2012, "dipinjam": 3, "status": "available"},
+    {"id": 103, "judul": "Manusia Setengah Salmon", "penulis": "Raditya Dika", "penerbit": "GagasMedia", "tahun": 2011, "dipinjam": 2,"status": "not available"},
+    {"id": 104, "judul": "Hidup Sederhana", "penulis": "Desi Anwar", "penerbit": "Gramedia", "tahun": 2014, "dipinjam": 4, "status": "available"},
+    {"id": 105, "judul": "Nanti Kita Cerita Tentang Hari Ini", "penulis": "Marchella FP", "penerbit": "KPG", "tahun": 2018, "dipinjam": 5, "status": "available"},
+    {"id": 106, "judul": "You Do You", "penulis": "Fellexandro Ruby", "penerbit": "Bentang Pustaka", "tahun": 2020,  "dipinjam": 6, "status": "available"},
+    {"id": 107, "judul": "Esok Lebih Baik", "penulis": "Rhenald Kasali", "penerbit": "Bentang Pustaka", "tahun": 2015, "dipinjam": 5, "status": "available"},
+    {"id": 108, "judul": "Stop Overthinking", "penulis": "Nick Trenton", "penerbit": "Independently Published", "tahun": 2021, "dipinjam": 4, "status": "not available"},
+    {"id": 109, "judul": "Mindset: The New Psychology of Success", "penulis": "Carol Dweck", "penerbit": "Ballantine Books", "tahun": 2006, "dipinjam": 6, "status": "available"},
+    {"id": 110, "judul": "Grit", "penulis": "Angela Duckworth", "penerbit": "Scribner", "tahun": 2016,  "dipinjam": 7, "status": "available"},
+    {"id": 111, "judul": "How To Think Like Sherlock Holmes", "penulis": "Maria Konnikova", "penerbit": "Viking", "tahun": 2013, "dipinjam": 5, "status": "available"},
+    {"id": 112, "judul": "Awaken the Giant Within", "penulis": "Tony Robbins", "penerbit": "Free Press", "tahun": 1991, "dipinjam": 5, "status": "available"},
+    {"id": 113, "judul": "Outliers", "penulis": "Malcolm Gladwell", "penerbit": "Little, Brown and Company", "tahun": 2008, "dipinjam": 10, "status": "available"},
+    {"id": 114, "judul": "Kamu Gak Sendirian", "penulis": "Pidi Baiq", "penerbit": "Pastel Books", "tahun": 2019,  "dipinjam": 9, "status": "not available"},
+    {"id": 115, "judul": "Menjadi Manusia Kuat", "penulis": "Yudi Latif", "penerbit": "Kompas", "tahun": 2015, "dipinjam": 8, "status": "not available"},
+    {"id": 116, "judul": "Sapiens", "penulis": "Yuval Noah Harari", "penerbit": "Gramedia", "tahun": 2014, "dipinjam": 4, "status": "available"},
+    {"id": 117, "judul": "Atomic Habits", "penulis": "James Clear", "penerbit": "Penguin", "tahun": 2018,  "dipinjam": 8, "status": "available"},
+    {"id": 118, "judul": "Rich Dad Poor Dad", "penulis": "Robert T. Kiyosaki", "penerbit": "Warner Books", "tahun": 1997, "dipinjam": 8, "status": "not available"},
+    {"id": 119, "judul": "Think and Grow Rich", "penulis": "Napoleon Hill", "penerbit": "Tribute Books", "tahun": 1937,  "dipinjam": 6, "status": "available"},
+    {"id": 120, "judul": "Laskar Pelangi", "penulis": "Andrea Hirata", "penerbit": "Bentang Pustaka", "tahun": 2005, "dipinjam": 8, "status": "available"},
+    {"id": 121, "judul": "Bumi", "penulis": "Tere Liye", "penerbit": "Gramedia", "tahun": 2014, "dipinjam": 5, "status": "not available"},
+    {"id": 122, "judul": "Hujan", "penulis": "Tere Liye", "penerbit": "Gramedia", "tahun": 2016, "dipinjam": 7, "status": "available"},
+    {"id": 123, "judul": "Dilan: Dia adalah Dilanku Tahun 1990", "penulis": "Pidi Baiq", "penerbit": "Pastel Books", "tahun": 2014, "dipinjam": 6, "status": "available"},
+    {"id": 124, "judul": "Filosofi Kopi", "penulis": "Dee Lestari", "penerbit": "Bentang Pustaka", "tahun": 2006, "dipinjam": 4, "status": "available"},
+    {"id": 125, "judul": "Perahu Kertas", "penulis": "Dee Lestari", "penerbit": "Bentang Pustaka", "tahun": 2009, "dipinjam": 7, "status": "not available"},
+    {"id": 126, "judul": "Sabtu Bersama Bapak", "penulis": "Adhitya Mulya", "penerbit": "GagasMedia", "tahun": 2014, "dipinjam": 5, "status": "available"},
+    {"id": 127, "judul": "Rindu", "penulis": "Tere Liye", "penerbit": "Republika", "tahun": 2014, "dipinjam": 3, "status": "available"},
+    {"id": 128, "judul": "Negeri 5 Menara", "penulis": "A. Fuadi", "penerbit": "Gramedia", "tahun": 2009, "dipinjam": 8, "status": "available"},
+    {"id": 129, "judul": "Bidadari-Bidadari Surga", "penulis": "Tere Liye", "penerbit": "Republika", "tahun": 2008, "dipinjam": 6, "status": "not available"},
+    {"id": 130, "judul": "Harry Potter and the Philosopher's Stone", "penulis": "J.K. Rowling", "penerbit": "Bloomsbury", "tahun": 1997, "dipinjam": 10, "status": "available"},
+    {"id": 131, "judul": "The Lord of the Rings", "penulis": "J.R.R. Tolkien", "penerbit": "Allen & Unwin", "tahun": 1954, "dipinjam": 9, "status": "available"},
+    {"id": 132, "judul": "The Catcher in the Rye", "penulis": "J.D. Salinger", "penerbit": "Little, Brown and Company", "tahun": 1951, "dipinjam": 8, "status": "available"},
+    {"id": 133, "judul": "Pride and Prejudice", "penulis": "Jane Austen", "penerbit": "T. Egerton", "tahun": 1813, "dipinjam": 7, "status": "available"},
+    {"id": 134, "judul": "To Kill a Mockingbird", "penulis": "Harper Lee", "penerbit": "J.B. Lippincott & Co.", "tahun": 1960, "dipinjam": 6, "status": "available"},
+    {"id": 135, "judul": "Hujan Bulan Juni", "penulis": "Sapardi Djoko Damono", "penerbit": "Gramedia", "tahun": 1994, "dipinjam": 10, "status": "not available"},
+    {"id": 136, "judul": "Surat Kecil untuk Tuhan", "penulis": "Agnes Davonar", "penerbit": "Inandra Published", "tahun": 2008, "dipinjam": 6, "status": "available"},
+    {"id": 137, "judul": "Orang-orang Biasa", "penulis": "Andrea Hirata", "penerbit": "Bentang Pustaka", "tahun": 2019, "dipinjam": 7, "status": "available"},
+    {"id": 138, "judul": "Mariposa", "penulis": "Luluk HF", "penerbit": "Coconut Books", "tahun": 2020, "dipinjam": 4, "status": "not available"},
+    {"id": 139, "judul": "The Da Vinci Code", "penulis": "Dan Brown", "penerbit": "Doubleday", "tahun": 2003, "dipinjam": 4, "status": "available"},
+    {"id": 140,"judul": "Angels and Demons", "penulis": "Dan Brown", "penerbit": "Pocket Books", "tahun": 2000, "dipinjam": 10, "status": "not available"},
+    {"id": 141, "judul": "Inferno", "penulis": "Dan Brown", "penerbit": "Doubleday", "tahun": 2013, "dipinjam": 5, "status": "not available"},
+    {"id": 142, "judul": "Gone Girl", "penulis": "Gillian Flynn", "penerbit": "Crown Publishing", "tahun": 2012, "dipinjam": 3, "status": "available"},
+    {"id": 143, "judul": "Twilight", "penulis": "Stephenie Meyer", "penerbit": "Little, Brown and Company", "tahun": 2005, "dipinjam": 5, "status": "not available"},
+    {"id": 144, "judul": "The Fault in Our Stars", "penulis": "John Green", "penerbit": "Dutton Books", "tahun": 2012, "dipinjam": 10, "status": "not available"},
+    {"id": 145, "judul": "Looking for Alaska", "penulis": "John Green", "penerbit": "Dutton Books", "tahun": 2005, "dipinjam": 5, "status": "available"},
+    {"id": 146, "judul": "A Thousand Splendid Suns", "penulis": "Khaled Hosseini", "penerbit": "Riverhead Books", "tahun": 2007, "dipinjam": 10, "status": "not available"},
+    {"id": 147, "judul": "Eleanor Oliphant Is Completely Fine", "penulis": "Gail Honeyman", "penerbit": "HarperCollins", "tahun": 2017, "dipinjam": 7, "status": "available"},
+    {"id": 148, "judul": "The Girl on the Train", "penulis": "Paula Hawkins", "penerbit": "Riverhead Books", "tahun": 2015, "dipinjam": 3, "status": "available"} 
 ]
 
 # Main Menu
@@ -405,8 +396,7 @@ def kelola_peminjaman():
             print("Opsi tidak valid. Silakan pilih kembali.")
 
 # Fungsi Utama untuk Menjalankan Program
-def main():
-    kata_sambutan()
+def main():    
     while True:
         tampilkan_menu()
         pilihan = input("Masukkan pilihan (1-6): ").strip()
