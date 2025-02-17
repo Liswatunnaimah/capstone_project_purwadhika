@@ -76,7 +76,7 @@ def tampilkan_menu():
 # Read Data (Lihat Koleksi Buku)
 def lihat_koleksi_buku():
     while True:
-        print("\nKoleksi Buku di Perpustakaan Liswatun Naimah")
+        print("\nSUB-MENU: Koleksi Buku di Perpustakaan Liswatun Naimah")
         print("1. Tampilkan Semua Buku")
         print("2. Cari Buku Berdasarkan ID")
         print("3. Filter Buku Berdasarkan Kolom Lain")
@@ -141,109 +141,268 @@ def filter_buku():
 
 # Create Data (Tambah Koleksi Buku)
 def tambah_koleksi_buku():
-    print("\nTambah Kolesi Buku")
-    
-    try:
-        id_buku = int(input("Masukkan ID Buku: "))
-    except ValueError:
-        print("ID harus berupa angka.")
-        return
+    while True:
+        print("\nSUB-MENU: Tambah Koleksi Buku")
+        print("1. Tambah Buku Baru")
+        print("2. Kembali ke Menu Utama")
+        pilihan = input("Pilih opsi (1-2): ").strip()
+        
+        if pilihan == "1":
+            try:
+                id_buku = int(input("Masukkan ID Buku: "))
+            except ValueError:
+                print("ID harus berupa angka.")
+                continue
 
-    # Validasi ID tidak boleh duplikat
-    for buku in buku_database:
-        if buku["id"] == id_buku:
-            print("ID Buku sudah ada. Masukkan ID yang unik.")
-            return
+            # Cek apakah ID sudah ada di database
+            if any(buku["id"] == id_buku for buku in buku_database):
+                print("ID Buku sudah ada. Masukkan ID yang unik.")
+                continue  # Kembali ke sub-menu
 
-    judul = input("Masukkan Judul Buku: ").strip()
-    penulis = input("Masukkan Nama Penulis: ").strip()
-    penerbit = input("Masukkan Nama Penerbit: ").strip()
-    try:
-        tahun = int(input("Masukkan Tahun Terbit: "))
-    except ValueError:
-        print("Tahun harus berupa angka.")
-        return
+            judul = input("Masukkan Judul Buku: ").strip()
+            penulis = input("Masukkan Nama Penulis: ").strip()
+            penerbit = input("Masukkan Nama Penerbit: ").strip()
+            
+            try:
+                tahun = int(input("Masukkan Tahun Terbit: "))
+            except ValueError:
+                print("Tahun harus berupa angka.")
+                continue
 
-    # Menyimpan Data Buku Baru
-    buku_baru = {"id": id_buku, "judul": judul, "penulis": penulis, "penerbit": penerbit, "tahun": tahun, "status": "available"}
-    buku_database.append(buku_baru)
+            # Menampilkan konfirmasi data sebelum menyimpan
+            buku_baru = {"id": id_buku, "judul": judul, "penulis": penulis, "penerbit": penerbit, "tahun": tahun, "status": "available"}
+            print("\nData yang akan disimpan:")
+            print(tabulate([buku_baru], headers="keys", tablefmt="grid"))
 
-    print("\nBuku berhasil ditambahkan.")
-    tampilkan_semua_buku()
+            konfirmasi = input("Apakah Anda yakin ingin menyimpan data ini? (y/n): ").strip().lower()
+            if konfirmasi == "y":
+                buku_database.append(buku_baru)
+                print("\nBuku berhasil ditambahkan.")
+            else:
+                print("\nPenyimpanan dibatalkan.")
+        
+        elif pilihan == "2":
+            break  # Kembali ke menu utama
+        
+        else:
+            print("Opsi tidak valid. Silakan pilih kembali.")
 
 # Update Data (Ubah Data Buku)
 def update_data_buku():
-    print("\nUpdate Data Buku")
-    try:
-        id_buku = int(input("Masukkan ID Buku yang ingin diperbarui: "))
-    except ValueError:
-        print("ID harus berupa angka.")
-        return
+    while True:
+        print("\nSUB-MENU: Update Data Buku")
+        print("1. Update Buku")
+        print("2. Kembali ke Menu Utama")
+        pilihan = input("Pilih opsi (1-2): ").strip()
+        
+        if pilihan == "1":
+            try:
+                id_buku = int(input("Masukkan ID Buku yang ingin diperbarui: "))
+            except ValueError:
+                print("ID harus berupa angka.")
+                continue
 
-    # Pencarian Buku
-    for buku in buku_database:
-        if buku["id"] == id_buku:
+            # Pencarian Buku
+            buku_ditemukan = None
+            for buku in buku_database:
+                if buku["id"] == id_buku:
+                    buku_ditemukan = buku
+                    break
+
+            if not buku_ditemukan:
+                print("Buku dengan ID tersebut tidak ditemukan.")
+                continue  # Kembali ke sub-menu
+            
+            # Menampilkan Data Buku Sebelum Update
             print("\nData Buku Saat Ini:")
-            print(tabulate([buku], headers="keys", tablefmt="grid"))
+            print(tabulate([buku_ditemukan], headers="keys", tablefmt="grid"))
 
-            kolom_update = input("\nMasukkan kolom yang ingin diupdate (judul/penulis/penerbit/tahun): ").strip().lower()
-            if kolom_update not in ["judul", "penulis", "penerbit", "tahun"]:
-                print("Kolom tidak valid.")
-                return
+            konfirmasi = input("\nApakah Anda ingin melanjutkan update? (y/n): ").strip().lower()
+            if konfirmasi != "y":
+                print("\nUpdate dibatalkan.")
+                continue  # Kembali ke sub-menu
+
+            # User input nama kolom yang ingin diubah
+            kolom_update = input("\nMasukkan nama kolom yang ingin diupdate (judul/penulis/penerbit/tahun/status): ").strip().lower()
+            if kolom_update not in ["judul", "penulis", "penerbit", "tahun", "status"]:
+                print("Kolom tidak valid. Silakan coba lagi.")
+                continue
 
             nilai_baru = input(f"Masukkan {kolom_update} baru: ").strip()
-            buku[kolom_update] = nilai_baru if kolom_update != "tahun" else int(nilai_baru)
+            if kolom_update == "tahun":
+                try:
+                    nilai_baru = int(nilai_baru)
+                except ValueError:
+                    print("Tahun harus berupa angka.")
+                    continue
 
-            print("\nData buku berhasil diperbarui.")
-            tampilkan_semua_buku()
-            return
+            # Menampilkan Konfirmasi Sebelum Update
+            print("\nData yang akan diperbarui:")
+            buku_sementara = buku_ditemukan.copy()
+            buku_sementara[kolom_update] = nilai_baru
+            print(tabulate([buku_sementara], headers="keys", tablefmt="grid"))
 
-    print("Buku dengan ID tersebut tidak ditemukan.")
-
-# Fungsi Menghapus Data Buku
-def hapus_data_buku():
-    print("\nHapus Data Buku")
-    try:
-        id_buku = int(input("Masukkan ID Buku yang ingin dihapus: "))
-    except ValueError:
-        print("ID harus berupa angka.")
-        return
-
-    for buku in buku_database:
-        if buku["id"] == id_buku:
-            print("\nData Buku yang akan dihapus:")
-            print(tabulate([buku], headers="keys", tablefmt="grid"))
-            konfirmasi = input("\nApakah Anda yakin ingin menghapus buku ini? (y/n): ").strip().lower()
-            if konfirmasi == 'y':
-                buku_database.remove(buku)
-                print("\nBuku berhasil dihapus.")
-                return
+            konfirmasi_update = input("\nApakah Anda yakin ingin memperbarui data ini? (y/n): ").strip().lower()
+            if konfirmasi_update == "y":
+                buku_ditemukan[kolom_update] = nilai_baru
+                print("\nData berhasil diperbarui.")
             else:
-                print("\nPenghapusan dibatalkan.")
-                return
+                print("\nUpdate dibatalkan.")
+        
+        elif pilihan == "2":
+            break  # Kembali ke menu utama
+        
+        else:
+            print("Opsi tidak valid. Silakan pilih kembali.")
 
-    print("Buku dengan ID tersebut tidak ditemukan.")
+# Delete (Menghapus Data Buku)
+def hapus_data_buku():
+    while True:
+        print("\nSUB-MENU: Hapus Data Buku")
+        print("1. Hapus Buku")
+        print("2. Kembali ke Menu Utama")
+        pilihan = input("Pilih opsi (1-2): ").strip()
+
+        if pilihan == "1":
+            try:
+                id_buku = int(input("Masukkan ID Buku yang ingin dihapus: "))
+            except ValueError:
+                print("ID harus berupa angka.")
+                continue
+
+            # Pencarian Buku
+            buku_ditemukan = None
+            for buku in buku_database:
+                if buku["id"] == id_buku:
+                    buku_ditemukan = buku
+                    break
+
+            if not buku_ditemukan:
+                print("Buku dengan ID tersebut tidak ditemukan.")
+                continue  # Kembali ke sub-menu
+
+            # Menampilkan Data Buku Sebelum Dihapus
+            print("\nData Buku yang Akan Dihapus:")
+            print(tabulate([buku_ditemukan], headers="keys", tablefmt="grid"))
+
+            # Konfirmasi Penghapusan
+            print("\nApakah Anda yakin ingin menghapus buku ini?")
+            print("1. Iya, hapus buku")
+            print("2. Tidak, kembali ke sub-menu delete")
+            konfirmasi = input("Pilih opsi (1-2): ").strip()
+
+            if konfirmasi == "1":
+                buku_database.remove(buku_ditemukan)
+                print("\nBuku berhasil dihapus.")
+            elif konfirmasi == "2":
+                print("\nPenghapusan dibatalkan.")
+            else:
+                print("Opsi tidak valid. Silakan pilih kembali.")
+
+        elif pilihan == "2":
+            break  # Kembali ke menu utama
+
+        else:
+            print("Opsi tidak valid. Silakan pilih kembali.")
 
 # Fungsi Manajemen Peminjaman & Pengembalian
 def kelola_peminjaman():
-    print("\nPeminjaman/Pengembalian Buku")
-    try:
-        id_buku = int(input("Masukkan ID Buku yang ingin dipinjam/dikembalikan: "))
-    except ValueError:
-        print("ID harus berupa angka.")
-        return
+    while True:
+        print("\nSUB-MENU: Manajemen Peminjaman & Pengembalian Buku")
+        print("1. Pinjam Buku")
+        print("2. Kembalikan Buku")
+        print("3. Kembali ke Menu Utama")
+        pilihan = input("Pilih opsi (1-3): ").strip()
 
-    for buku in buku_database:
-        if buku["id"] == id_buku:
-            if buku["status"] == "available":
-                buku["status"] = "not available"
+        if pilihan == "1":  # Opsi Peminjaman Buku
+            try:
+                id_buku = int(input("Masukkan ID Buku yang ingin dipinjam: "))
+            except ValueError:
+                print("ID harus berupa angka.")
+                continue
+
+            # Pencarian Buku
+            buku_ditemukan = None
+            for buku in buku_database:
+                if buku["id"] == id_buku:
+                    buku_ditemukan = buku
+                    break
+
+            if not buku_ditemukan:
+                print("Buku dengan ID tersebut tidak ditemukan.")
+                continue  # Kembali ke sub-menu
+
+            if buku_ditemukan["status"] == "not available":
+                print("Buku ini sudah dipinjam dan belum dikembalikan.")
+                continue
+
+            # Menampilkan Data Buku yang Akan Dipinjam
+            print("\nBuku yang Akan Dipinjam:")
+            print(tabulate([buku_ditemukan], headers="keys", tablefmt="grid"))
+
+            # Konfirmasi Peminjaman
+            print("\nApakah Anda yakin ingin meminjam buku ini?")
+            print("1. Iya, pinjam buku")
+            print("2. Tidak, kembali ke sub-menu peminjaman")
+            konfirmasi = input("Pilih opsi (1-2): ").strip()
+
+            if konfirmasi == "1":
+                buku_ditemukan["status"] = "not available"
+                if "dipinjam" in buku_ditemukan:
+                    buku_ditemukan["dipinjam"] += 1
+                else:
+                    buku_ditemukan["dipinjam"] = 1
                 print("\nBuku berhasil dipinjam.")
+            elif konfirmasi == "2":
+                print("\nPeminjaman dibatalkan.")
             else:
-                buku["status"] = "available"
-                print("\nBuku berhasil dikembalikan.")
-            return
+                print("Opsi tidak valid. Silakan pilih kembali.")
 
-    print("Buku dengan ID tersebut tidak ditemukan.")
+        elif pilihan == "2":  # Opsi Pengembalian Buku
+            try:
+                id_buku = int(input("Masukkan ID Buku yang ingin dikembalikan: "))
+            except ValueError:
+                print("ID harus berupa angka.")
+                continue
+
+            # Pencarian Buku
+            buku_ditemukan = None
+            for buku in buku_database:
+                if buku["id"] == id_buku:
+                    buku_ditemukan = buku
+                    break
+
+            if not buku_ditemukan:
+                print("Buku dengan ID tersebut tidak ditemukan.")
+                continue  # Kembali ke sub-menu
+
+            if buku_ditemukan["status"] == "available":
+                print("Buku ini tidak sedang dipinjam, sehingga tidak bisa dikembalikan.")
+                continue
+
+            # Menampilkan Data Buku yang Akan Dikembalikan
+            print("\nBuku yang Akan Dikembalikan:")
+            print(tabulate([buku_ditemukan], headers="keys", tablefmt="grid"))
+
+            # Konfirmasi Pengembalian
+            print("\nApakah Anda yakin ingin mengembalikan buku ini?")
+            print("1. Iya, kembalikan buku")
+            print("2. Tidak, kembali ke sub-menu pengembalian")
+            konfirmasi = input("Pilih opsi (1-2): ").strip()
+
+            if konfirmasi == "1":
+                buku_ditemukan["status"] = "available"
+                print("\nBuku berhasil dikembalikan.")
+            elif konfirmasi == "2":
+                print("\nPengembalian dibatalkan.")
+            else:
+                print("Opsi tidak valid. Silakan pilih kembali.")
+
+        elif pilihan == "3":  # Kembali ke Menu Utama
+            break
+
+        else:
+            print("Opsi tidak valid. Silakan pilih kembali.")
 
 # Fungsi Utama untuk Menjalankan Program
 def main():
